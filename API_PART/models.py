@@ -7,7 +7,7 @@ class data(models.Model):
         ('Abstractive', 'Abstractive')
     )
     link = models.CharField(max_length = 1000)
-    inputtext = models.TextField(max_length = 100000)
+    inputtext = models.CharField(max_length = 1000000)
     option = models.CharField(max_length = 30, choices = choices_)
 
     def __str__(self):

@@ -36,6 +36,8 @@ def weird_name(request):
     if request.method == 'POST':
         print('HEREEEEEE')
         form = dataForm(request.POST)
+        for field in form:
+            print("Field Error:", field.name,  field.errors)
         if form.is_valid():
             print('inside')
             link = form.cleaned_data['link']
@@ -55,7 +57,8 @@ def weird_name(request):
                 elif option == 'Abstractive':
                     ans = extract.generate_summary_abstractive(text)
             messages.success(request, 'Summarized Text: {}'.format(ans))
-            
+        else:
+            print('not VALID')
     form = dataForm()
 
     return render(request, 'myform/weird_name.html', {'form':form})
