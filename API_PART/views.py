@@ -10,7 +10,7 @@ from .serializers import dataSerializer
 from django.http import JsonResponse
 from rest_framework.parsers import JSONParser
 from django.contrib import messages
-
+from . import extract 
 
 # Create your views here.
 
@@ -43,10 +43,17 @@ def weird_name(request):
             option = form.cleaned_data['option']
             print(link, text, option)
             ans = ''
-            if (option == 'Extractive'):
-                ans = 'ext'
+            if link != '':
+                if option == 'Extractive':
+                    txt = extract.get_data_from_url(link)
+                    ans = extract.generate_summary_extractive(txt, 10)
+                elif option == 'Abstractive':
+                    ans = extract.generate_summary_abstractive(text)
             else:
-                ans = 'abst'
+                if option == 'Extractive':
+                    ans = extract.generate_summary_extractive(text, 10)
+                elif option == 'Abstractive':
+                    ans = extract.generate_summary_abstractive(text)
             messages.success(request, 'Summarized Text: {}'.format(ans))
             
     form = dataForm()
